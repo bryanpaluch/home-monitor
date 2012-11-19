@@ -7,7 +7,10 @@
     "svd-xbee": "git://github.com/mozz100/node-xbee.git#develop",
     "nstore": "~0.5.1",
     "packet": "0.0.4",
-    "socket.io-client": "~0.9.11"
+    "socket.io-client": "~0.9.11",
+    "request": "~2.12.0",
+    "underscore": "~1.4.2",
+    "jParser": "~1.0.2"
   },
   "devDependencies": {},
   "scripts": {

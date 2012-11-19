@@ -1,12 +1,14 @@
 var util = require('util');
 var XBee = require('svd-xbee').XBee;
-var packet = require('packet');
-var parser = packet.Parser();
+var jParser = require('jParser');
 var xbee = new XBee({
 	port: '/dev/ttyUSB0',
 	baudrate: 9600
 });
 var packet_patterns = require('./sensorData');
+
+console.log('crap');
+console.log(packet_patterns);
 
 module.exports.boot = function(emitter) {
 	var handler = emitter;
@@ -26,21 +28,20 @@ module.exports.boot = function(emitter) {
       var type = data[0];
       console.log('sensor with type ' + type + ' sent data');
       if(packet_patterns[type]){
-        parser.parse(packet_patterns[type], function(message,data){
-          console.log('new packet :', message, data);
-          handler.emit('sensor_reading', {
+        console.log('parsing');
+        var parser = new jParser(data, {pattern : packet_patterns[type].payloadPattern});
+        var packet = parser.parse('pattern');
+        console.log(packet); 
+        handler.emit('sensor_reading', {
             sensorId: node.remote64.hex,
-            payload: message 
+            payload:  packet
             }); 
-        });
       }else{
         console.log('unsupported sensor type');
       }
-    
-	});
 
+    });
   });
-  
+
 	xbee.init();
 }
-
