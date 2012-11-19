@@ -1,14 +1,15 @@
 #include <dht11.h>
 #include <XBee.h>
-dht11 DHT11;
+
 
 /*-----( Declare Constants, Pin Numbers )-----*/
 #define DHT11PIN 2
-XBee xbee = XBee();
 #define TYPE 1
 #define ON 1
 #define OFF 0
 
+dht11 DHT11;
+XBee xbee = XBee();
 uint8_t payload[10] = {};
 uint8_t payloadPointer = 0;
 float setTemp = 50.0;
@@ -41,20 +42,17 @@ void setup() {
 }
 
 void loop() {   
-  // break down 10-bit reading into two bytes and place in payload
-
-  uint8_t payloadPointer = 0;
+  
   int chk = DHT11.read(DHT11PIN);
+  
   float currentTemp = Fahrenheit(DHT11.temperature) ;
+  
   if(currentTemp < setTemp)
     state = ON;
   else
     state = OFF;
   
-  
-  
-  
-  
+  payloadPointer = 0;
   addByteToPayload(TYPE);
   addFloatToPayload(currentTemp);
   addFloatToPayload(setTemp);
@@ -81,7 +79,7 @@ void loop() {
     flashLed(errorLed, 2, 50);
   }
 
-  delay(1000);
+  delay(5000);
 }
 
 float Fahrenheit(float celsius)
