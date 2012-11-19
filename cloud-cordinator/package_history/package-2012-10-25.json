@@ -1,0 +1,13 @@
+{
+    "name": "oauthorize-example",
+    "version": "0.0.0",
+    "dependencies": {
+        "express": "latest",
+        "ejs": "0.7.x",
+        "oauthorize": "latest",
+        "passport": "latest",
+        "passport-local": "latest",
+        "passport-http-oauth": "latest",
+        "connect-ensure-login": "latest"
+    }
+}

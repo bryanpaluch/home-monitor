@@ -1,0 +1,13 @@
+extends ../layouts/default
+block main
+  .container-fluid
+    .row.span11.boxed
+      p Hi #{user.name}
+      p
+        b #{myclient.name}
+        |  is requesting access to your account.
+      p do you approve?
+      form(action="/dialog/authorize/decision", method="post")
+        input(name="transaction_id", type="hidden", value="#{transactionID}")
+        input#allow(type="submit", value="Allow")
+        input#deny(type="submit", value="Deny", name="cancel")

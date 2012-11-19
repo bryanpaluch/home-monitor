@@ -1,0 +1,41 @@
+extends ../layouts/default
+
+block main
+  .container-fluid
+    .row.span11.boxed
+        if(message.flash)
+          h3 #{message.flash}
+        form.signup.form-horizontal(action="/admin/user/#{user._id}", method="post")
+          .control-group
+            label.control-label(for='name') Full name
+            .controls
+              input#name(type='text', name="name",  value='#{user.name}') 
+          .control-group
+            label.control-label(for='email') Email
+            .controls
+              input#email(type='text', name="email", value='#{user.email}') 
+          .control-group
+            label.control-label(for='phoneNumber') phoneNumber
+            .controls
+              input#phoneNumber(type='text', name="phoneNumber", value='#{user.phoneNumber}') 
+          .control-group
+            label.control-label(for='verified') Verified
+            .controls
+              if user.verified
+                input#verified(type='checkbox', name="verified", checked)
+              else
+                input#verified(type='checkbox', name="verified")
+          .control-group
+            label.control-label(for='isAdmin') Admin
+            .controls
+              if user.isAdmin
+                input#isAdmin(type='checkbox', name="isAdmin", checked)
+              else
+                input#isAdmin(type='checkbox', name="isAdmin")
+
+
+          .form-actions
+            button.btn.btn-primary(type='submit') Update
+            &nbsp;
+            | or&nbsp;
+            a.show-login(href="/") exit

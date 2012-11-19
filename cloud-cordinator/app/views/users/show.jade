@@ -1,0 +1,11 @@
+extends ../layouts/default
+
+block main
+  .container-fluid
+    .row.span11.boxed
+      p Email: #{user.email}
+      p Name: #{user.name}
+      if user.verified
+        p WebRTC Phone Number Endpoint: #{user.phoneNumber}
+      else
+        p Please email Bryan for a webrtc phone number

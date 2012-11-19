@@ -1,0 +1,16 @@
+extends ../layouts/default
+
+block main
+  .container-fluid
+    .row.span11.boxed
+      p You are an admin Input email address of account you wish to edit or list all
+      form.login.form-horizontal(action="/admin/email", method="post")
+        .control-group
+          label.control-label(for='email') Email
+          .controls
+            input#email(type='text', name="email", placeholder='Email')
+        .form-actions
+          button.btn.btn-primary(type='submit') Search 
+          &nbsp;
+          | or&nbsp;
+          a.show-signup(href="/admin/all") All

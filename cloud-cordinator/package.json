@@ -1,0 +1,16 @@
+{
+  "name": "XbeeCloudCordinator",
+  "version": "0.0.0",
+  "dependencies": {
+    "express": "3.0.0",
+    "ejs": "0.8.3",
+    "oauthorize": "0.1.0",
+    "passport": "~0.1.15",
+    "passport-local": "latest",
+    "passport-http-oauth": "0.1.1",
+    "connect-ensure-login": "0.1.0",
+    "mongoose": "~3.4.0",
+    "jade": "~0.27.7",
+    "underscore": "~1.4.2"
+  }
+}

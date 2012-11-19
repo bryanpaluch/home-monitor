@@ -1,0 +1,26 @@
+extends ../layouts/default
+
+block main
+  .container-fluid
+    .row.span11
+      table.table
+        caption 
+          h2 OAuth Users
+        thead 
+          tr
+            th ID
+            th Email
+            th Name
+            th verified
+            th Admin?
+        tbody
+          each user in users
+            tr
+              th
+                a(href="/admin/user/#{user._id}") #{user._id}
+              th #{user.email}
+              th #{user.name}
+              th #{user.verified}
+              th #{user.isAdmin}
+
+
