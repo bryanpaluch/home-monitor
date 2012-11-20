@@ -4,7 +4,7 @@
   "description": "ERROR: No README.md file found!",
   "main": "server.js",
   "dependencies": {
-    "svd-xbee": "git://github.com/mozz100/node-xbee.git#develop",
+    "svd-xbee": "https://github.com/bryanpaluch/node-xbee.git",
     "nstore": "~0.5.1",
     "packet": "0.0.4",
     "socket.io-client": "~0.9.11"
