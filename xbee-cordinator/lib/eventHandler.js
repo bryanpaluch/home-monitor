@@ -1,13 +1,19 @@
+var memoryDb = require('./memoryDb.js');
+
 exports.boot = function(handler){
  
   handler.on('sensor_reading', function(data){
-    console.log('sensor reading', data);
-    handler.emit('cloud_save', data);
-
+    memoryDb.checkChange(data,function(obj, updated){
+      if(updated){
+        handler.emit('cloud_save', data);
+      }
+    });
   });
 
   handler.on('sensor_annouce', function(data){
-    console.log('sensor up', data);
+    memoryDb.registerSensor(data, function(obj){
+    console.log('sensor up and registered', obj);
+    });
   });
  
   handler.on('web_action', function(data){
