@@ -4,6 +4,7 @@ var memoryDb = require('../lib/memoryDb')
 module.exports = function (app, passport, auth) {
   
   app.get('/about',function(req,res){
+    console.log('rendering about');
     res.render('about/show');
   });
 

@@ -2,12 +2,14 @@ var sensorDb = require('dirty')('data/sensors.db');
 var statusDb = require('dirty')('data/status.db');
 var _ = require('underscore');
 var sensors = {};
+var cloudAuth = false;
 
 sensorDb.on('load', function(){
   console.log('sensor db loaded');
 });
 
 statusDb.on('load', function(){
+  
   console.log('status db loaded');
 });
 
@@ -29,6 +31,19 @@ module.exports.registerSensor = function(data, cb){
   }else{
     sensorDb.set(data.sensorId, data);
     cb();
+  }
+}
+module.exports.checkCloudInit = function(){
+  if(cloudInit){
+    return cloudAuth;
+  }else{
+    //check db
+    var auth = statusDb.get('cloudauthz');
+    if(auth){
+      return cloudAuth;
+    }else{
+      return null;
+    }
   }
 }
 
