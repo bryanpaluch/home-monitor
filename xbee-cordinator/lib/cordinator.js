@@ -14,11 +14,9 @@ module.exports.boot = function(emitter) {
 	});
 
 	xbee.on("node", function(node) {
-  console.log("Node %s connected", node.remote64.hex);
-		node.send("Hello!", function() {
-			console.log('sent!');
-		});
-		node.on("data", function(data) {
+	  handler.emit({id: node.remote64.hex, status: 'on', node: node});	
+		
+    node.on("data", function(data) {
 			//Every packet that comes in should be parsed based on its sensor type.
       //sensor type is defined by the first byte of the array.
       //0x00 is a thermostat
@@ -35,7 +33,6 @@ module.exports.boot = function(emitter) {
       }else{
         console.log('unsupported sensor type');
       }
-    
 	});
 
   });

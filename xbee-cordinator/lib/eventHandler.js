@@ -1,9 +1,15 @@
 exports.boot = function(handler){
-  console.log(handler); 
+ 
   handler.on('sensor_reading', function(data){
     console.log('sensor reading', data);
+    handler.emit('cloud_save', data);
+
   });
 
+  handler.on('sensor_annouce', function(data){
+    console.log('sensor up', data);
+  });
+ 
   handler.on('web_action', function(data){
     console.log('web action', data);
   });
@@ -16,6 +22,4 @@ exports.boot = function(handler){
     console.log('The connection to the web is up, starting sync process');
 
   });
-
-
 }
