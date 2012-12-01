@@ -11,7 +11,12 @@
     "jParser": "~1.0.2",
     "tiny": "0.0.8",
     "dirty": "~0.9.6",
-    "underscore": "~1.4.2"
+    "underscore": "~1.4.2",
+    "express": "~3.0.3",
+    "jade": "~0.27.7",
+    "passport": "~0.1.15",
+    "express-namespace": "~0.1.1",
+    "passport-oauth": "~0.1.12"
   },
   "devDependencies": {},
   "scripts": {
