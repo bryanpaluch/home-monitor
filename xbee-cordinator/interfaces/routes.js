@@ -3,6 +3,13 @@ var memoryDb = require('../lib/memoryDb')
 
 module.exports = function (app, passport, auth) {
   
+  app.get('*', function(req, res, next){
+      console.log('checking cloud init status');
+      req.cloudinit = memoryDb.checkCloudInit();
+      console.log(req.cloudinit);
+      next();
+  });
+
   app.get('/about',function(req,res){
     console.log('rendering about');
     res.render('about/show');
@@ -19,5 +26,6 @@ module.exports = function (app, passport, auth) {
   app.get('/auth/cloudcordinator/callback', passport.authorize('cloudcordinator-auth', {scope: '*', failureRedirect: '/login'}), users.cloudCordinatorCallback);
 	
   app.get('/', function(req, res){
+        console.log(req.cloudinit);
          res.redirect('/about');});
 }

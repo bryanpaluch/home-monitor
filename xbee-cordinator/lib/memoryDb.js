@@ -34,12 +34,13 @@ module.exports.registerSensor = function(data, cb){
   }
 }
 module.exports.checkCloudInit = function(){
-  if(cloudInit){
+  if(cloudAuth){
     return cloudAuth;
   }else{
     //check db
-    var auth = statusDb.get('cloudauthz');
-    if(auth){
+    var cloudAuth = statusDb.get('user');
+    if(cloudAuth){
+      console.log('retuned cloud auth', cloudAuth);
       return cloudAuth;
     }else{
       return null;
