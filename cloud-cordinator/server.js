@@ -30,5 +30,5 @@ require('./config/settings').boot(app, passport);
 require('./interfaces/routes')(app, passport);
 
 
-var port = process.env.PORT || 3002;
+var port = process.env.PORT || 3003;
 server.listen(port);
