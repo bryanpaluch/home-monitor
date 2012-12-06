@@ -12,6 +12,7 @@ var site = require('../app/controllers/site');
 var user = require('../app/controllers/user.js');
 var admin = require('../app/controllers/admin.js');
 var oauth = require('../app/controllers/oauth.js');
+var sensor = require('../app/controllers/sensor.js');
 
 app.get('/', user.about);
 app.get('/login', site.loginForm);
@@ -28,7 +29,11 @@ app.post('/oauth/request_token', oauth.requestToken);
 app.post('/oauth/access_token', oauth.accessToken);
 
 
+app.all('/api*', passport.authenticate('token', { session: false }));
 app.get('/api/userinfo', user.info);
+app.post('/api/sensor/:sensorMac', sensor.create);
+app.put('/api/sensor/:sensorMac', sensor.read);
+
 app.all('/admin*', login.ensureLoggedIn(), function(req, res, next){
       console.log('checking if user is admin');
       if(req.user.isAdmin)

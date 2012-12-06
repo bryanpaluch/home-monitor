@@ -55,9 +55,7 @@ exports.show = function(req, res) {
 }
 exports.signin = function(req, res) {}
 
-
 exports.info = [
-  passport.authenticate('token', { session: false }),
   function(req, res) {
     console.log(req.user);
     res.json({ user_id: req.user.id, name: req.user.name, phoneNumber: req.user.phoneNumber })
