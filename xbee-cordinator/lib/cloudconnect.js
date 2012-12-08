@@ -2,7 +2,7 @@ ioclient = require('socket.io-client');
 memoryDb = require('./memoryDb.js');
 request = require('request');
 
-exports.boot = function (handler){
+exports.boot = function (handler, config){
   var cloudinitiated = memoryDb.checkCloudInit('cloudinitiated');
 
 
@@ -25,8 +25,16 @@ exports.boot = function (handler){
   
   function saveToCloud(data){
     console.log(data);
-    request('http://home-monitor.bryanpaluch.com/api/sensor/' + data.sensorId, function(error, response, body ){
-      if(!error && response.status == 200){
+    var oauth = { consumer_key : config.cc.consumerKey,
+                  consumer_secret: config.cc.consumerSecret,
+                  token: cloudinitiated.token.token,
+                  token_secret: cloudinitiated.token.attributes.tokenSecret
+                };
+    console.log(oauth);
+    request.put({url: 'http://homemonitor.bryanpaluch.com/api/sensor/' + data.sensorId,
+             oauth: oauth, json : true, body: data}
+             ,function(error, response, body ){
+      if(!error){
         console.log(body);
       }else{
         console.log('error', error);
