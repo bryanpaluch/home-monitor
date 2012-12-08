@@ -3,7 +3,8 @@
  */
 var mongoose = require('mongoose')
  , User = mongoose.model('User') 
-  , login = require('connect-ensure-login');
+ , Sensor = mongoose.model('Sensor') 
+ , login = require('connect-ensure-login');
   
 module.exports = function(app, passport){
 
@@ -33,6 +34,19 @@ app.all('/api*', passport.authenticate('token', { session: false }));
 app.get('/api/userinfo', user.info);
 app.post('/api/sensor/:sensorMac', sensor.create);
 app.put('/api/sensor/:sensorMac', sensor.read);
+app.param('sensorMac', function(req, res, next, id){
+  Sensor.findOne({mac:id})
+    .exec(function(err, sensor){
+      if (err) return next(err);
+      if (!sensor){
+        req.sensor = false;
+        next();
+      }else{
+        req.sensor = sensor;
+        next();
+      }
+    });
+  });
 
 app.all('/admin*', login.ensureLoggedIn(), function(req, res, next){
       console.log('checking if user is admin');

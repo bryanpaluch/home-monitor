@@ -9,6 +9,7 @@ var SensorSchema = new Schema({
   , mac: String
   , user: {type : Schema.ObjectId, ref: 'User'}
   , createdAt : {type : Date, default : Date.now}
+  , lastReading: {type: Schema.Types.Mixed}
 });
 
 
