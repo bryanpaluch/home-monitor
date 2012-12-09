@@ -22,7 +22,6 @@ exports.boot = function (handler, config){
 
 
   });
-  
   function saveToCloud(data){
     console.log(data);
     var oauth = { consumer_key : config.cc.consumerKey,
@@ -42,10 +41,6 @@ exports.boot = function (handler, config){
     });
 
   }
-
-
-
-
 }
 //       request.put({
 //				url: 'http://homemonitor.bryanpaluch.com/temp',
