@@ -6,15 +6,16 @@ var passport = require('passport')
 , Reading = mongoose.model('Reading');
 
 
-exports.create = [
+exports.update = [
   function(req, res){
-    console.log(req.body);
     if(req.sensor){
       console.log('sensor already exists, updating');
+      var sensor = new Sensor({
+                               name: req.body.name,
+                              });
     }else{
-      var sensor = new Sensor(req.body);
+      console.log('creation currently not supported by this method'); 
     }
-    console.log(req.user, req.body);
     res.json({status: 'OK'});
   }
 ]
@@ -22,9 +23,20 @@ exports.create = [
 
 exports.read = [
   function(req, res) {
-    console.log('request body:', req.body);
     if(req.sensor){
       console.log('sensor already exists, reading');
+      var sensor = req.sensor;
+      sensor.lastReading = req.body.payload;
+      sensor.save(function(err){
+        if(err)
+          console.log(err);
+      });
+      var reading = new Reading({ data: req.body.payload,
+                                  sensor: sensor._id});
+      reading.save(function(err){
+        if(err)
+          console.log(err);
+      });
     }else{
       var sensor = new Sensor({mac: req.body.sensorId,
                                name: 'New Sensor',
@@ -37,9 +49,6 @@ exports.read = [
         console.log(this);
       });
     }
-    
-    console.log(req.user, req.body);
-    console.log(req.user);
     res.json({ status: 'OK'});
   }
 ]

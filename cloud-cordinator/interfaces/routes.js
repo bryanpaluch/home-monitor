@@ -29,10 +29,11 @@ app.post('/dialog/authorize/decision', oauth.userDecision);
 app.post('/oauth/request_token', oauth.requestToken);
 app.post('/oauth/access_token', oauth.accessToken);
 
+app.all('/site*', login.ensureLoggedIn());
 
 app.all('/api*', passport.authenticate('token', { session: false }));
 app.get('/api/userinfo', user.info);
-app.post('/api/sensor/:sensorMac', sensor.create);
+app.post('/api/sensor/:sensorMac', sensor.update);
 app.put('/api/sensor/:sensorMac', sensor.read);
 app.param('sensorMac', function(req, res, next, id){
   Sensor.findOne({mac:id})
