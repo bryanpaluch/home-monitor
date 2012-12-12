@@ -1,0 +1,6 @@
+form.editsensor.form-inline(action="/site/sensor/#{sensor._id}", method="post")
+  .control-group
+    label.control-label(for='name') Name:
+      .controls
+        input#name(type='text', name="name",  value='#{sensor.name}') 
+    button.btn.btn-primary(type='submit') Update

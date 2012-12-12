@@ -1,0 +1,20 @@
+extends ../layouts/default
+
+block main
+  .container-fluid
+    .row.span11
+      table.table
+        caption 
+          h2 Sensors 
+        thead 
+          tr
+            th ID
+            th Name
+            th MAC Address
+        tbody
+          each sensor in sensors
+            tr
+              th
+                a(href="/site/sensor/#{sensor._id}") #{sensor._id}
+              th #{sensor.name}
+              th #{sensor.mac}
