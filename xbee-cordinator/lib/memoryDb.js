@@ -35,14 +35,16 @@ module.exports.registerSensor = function(data, cb){
 }
 module.exports.checkCloudInit = function(){
   if(cloudAuth){
+    console.log('cloud auth is there');
     return cloudAuth;
   }else{
     //check db
     var cloudAuth = statusDb.get('user');
     if(cloudAuth){
-      console.log('retuned cloud auth', cloudAuth);
+      console.log('returned cloud auth', cloudAuth);
       return cloudAuth;
     }else{
+      console.log('no cloud Auth in db');
       return null;
     }
   }
