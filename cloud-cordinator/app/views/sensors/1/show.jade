@@ -4,3 +4,13 @@ block main
   .container-fluid
     .row.span11.boxed
       include ../edit
+      include ../basic
+      | &nbsp;
+      h1="Current Temp " + Math.round(sensor.lastReading.currentTemp) + "\u00B0"
+      p= "Set Temperature "  + sensor.lastReading.setTemp + "\u00B0"
+        if (sensor.lastReading.state == 0)
+          p Off
+        else
+          p On
+
+
