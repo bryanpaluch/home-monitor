@@ -5,22 +5,37 @@ var passport = require('passport')
 , Sensor = mongoose.model('Sensor')
 , Reading = mongoose.model('Reading');
 
-
+//Controller for Site 
 exports.update = [
   function(req, res){
-    if(req.sensor){
-      console.log('sensor already exists, updating');
-      var sensor = new Sensor({
-                               name: req.body.name,
-                              });
+  var sensor = req.sensor;
+    if(sensor && req.body.name){
+      sensor.name = req.body.name;
+      sensor.save(function(err){
+        if(err) throw (err);
+        var type = req.sensor.lastReading.type;
+        res.render('sensors/' + type + '/show', {sensor: req.sensor});
+      });
     }else{
-      console.log('creation currently not supported by this method'); 
+        var type = req.sensor.lastReading.type;
+        res.render('sensors/' + type + '/show', {sensor: req.sensor});
     }
-    res.json({status: 'OK'});
   }
 ]
 
-
+exports.show = [
+  function(req, res){
+  if(req.sensor && req.sensor.lastReading.type){
+    var type = req.sensor.lastReading.type;
+    console.log(req.sensor);
+    res.render('sensors/' + type + '/show', {sensor: req.sensor});
+  }else{
+    console.log('sensor not found or no type', req.sensor, req.sensor.lastReading.type);
+    res.redirect('/notfound');
+  }
+}
+]
+//Controller for xbee cordinator API
 exports.read = [
   function(req, res) {
     if(req.sensor){

@@ -3,7 +3,8 @@
  */
 var passport = require('passport')
 , mongoose = require('mongoose')
-, User = mongoose.model('User');
+, User = mongoose.model('User')
+, Sensor = mongoose.model('Sensor');
 exports.signup = function (req, res){
   res.render('users/signup', {
               title: 'Sign up'
@@ -52,6 +53,13 @@ exports.show = function(req, res) {
                 user: user,
                     updated: false
       });
+}
+
+exports.showallsensors = function(req, res){
+  Sensor.find({user: req.user._id}, function(err, sensors){
+    if(err) return err;
+    res.render('users/allsensors', {sensors: sensors});
+  });
 }
 exports.signin = function(req, res) {}
 
