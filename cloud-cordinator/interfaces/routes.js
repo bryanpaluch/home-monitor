@@ -51,6 +51,8 @@ app.param('sensorId', function(req, res, next, id){
 
 app.all('/api*', passport.authenticate('token', { session: false }));
 app.get('/api/userinfo', user.info);
+app.get('/api/socketkey', user.socketkey);
+
 //app.post('/api/sensor/:sensorMac', sensor.update);
 app.put('/api/sensor/:sensorMac', sensor.read);
 app.param('sensorMac', function(req, res, next, id){

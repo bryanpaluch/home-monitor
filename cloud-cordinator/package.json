@@ -1,5 +1,5 @@
 {
-  "name": "XbeeCloudCordinator",
+  "name": "cloudcordinator",
   "version": "0.0.0",
   "dependencies": {
     "express": "3.0.0",
@@ -11,6 +11,16 @@
     "connect-ensure-login": "0.1.0",
     "mongoose": "~3.4.0",
     "jade": "~0.27.7",
-    "underscore": "~1.4.2"
-  }
+    "underscore": "~1.4.2",
+    "socket.io": "~0.9.11"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "description": "A management layer service for internet of things",
+  "main": "server.js",
+  "devDependencies": {},
+  "repository": "",
+  "author": "Bryan Paluch",
+  "license": "MIT"
 }

@@ -28,6 +28,7 @@ require('./config/auth').boot(passport,config);
 require('./config/settings').boot(app, passport);
 //bootstrap Interfaces
 require('./interfaces/routes')(app, passport);
+require('./interfaces/sockets')(server, passport);
 
 
 var port = process.env.PORT || 3003;

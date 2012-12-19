@@ -3,6 +3,7 @@
  */
 var passport = require('passport')
 , mongoose = require('mongoose')
+, crypto = require('crypto')
 , User = mongoose.model('User')
 , Sensor = mongoose.model('Sensor');
 exports.signup = function (req, res){
@@ -69,3 +70,25 @@ exports.info = [
     res.json({ user_id: req.user.id, name: req.user.name, phoneNumber: req.user.phoneNumber })
   }
 ]
+exports.socketkey = [
+  function(req, res){
+    console.log(req.user);
+    var socketKey = {
+                      user :req.user,
+                      timestamp: new Date()
+                    };
+    var cipher = crypto.createCipher("aes-256-cbc","SecretPassword");
+    var encryptedSocketKey =  cipher.update(JSON.stringify(socketKey), 'utf8', 'base64');
+    encryptedSocketKey +=  cipher.final('base64');
+    console.log(encryptedSocketKey);
+    res.json({status: 'ok', timestamp: socketKey.timestamp, socketKey: encryptedSocketKey});
+
+}
+]
+exports.decryptSocketKey = function(encryptedSocketKey, cb){
+  var decipher = crypto.createDecipher('aes-256-cbc', "SecretPassword");
+  var user = decipher.update(encryptedSocketKey, 'base64', 'utf8');
+  user += decipher.final('utf8');
+  cb(JSON.parse(user));
+}
+
