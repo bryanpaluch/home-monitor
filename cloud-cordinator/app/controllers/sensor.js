@@ -1,6 +1,7 @@
 
 var passport = require('passport')
 , mongoose = require('mongoose')
+, actions = require('../../libs/sensorData.js')
 , User = mongoose.model('User')
 , Sensor = mongoose.model('Sensor')
 , Reading = mongoose.model('Reading');
@@ -22,7 +23,24 @@ exports.update = [
     }
   }
 ]
+export.createAction = [
+  function(req, res){
+  var type = req.sensor.lastReading.type;
+    if(type && actions[type]){
+      console.log('creating action forms for sensor type ', actions[type].sensorType);
+      res.render('sensors/action', 
+                 {actions: actions[type].actions, 
+                  type: actions[type].sensorType,
+                  sensor: req.sensor
+                 }
+                );
+    }else{
+      console.log('sensor type not supported yet ', type);
+      res.render('sensors/' + type + '/show', {sensor: req.sensor});
+    }
 
+  }
+]
 exports.show = [
   function(req, res){
   if(req.sensor && req.sensor.lastReading.type){

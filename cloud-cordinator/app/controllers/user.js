@@ -72,7 +72,6 @@ exports.info = [
 ]
 exports.socketkey = [
   function(req, res){
-    console.log(req.user);
     var socketKey = {
                       user :req.user,
                       timestamp: new Date()
@@ -80,7 +79,6 @@ exports.socketkey = [
     var cipher = crypto.createCipher("aes-256-cbc","SecretPassword");
     var encryptedSocketKey =  cipher.update(JSON.stringify(socketKey), 'utf8', 'base64');
     encryptedSocketKey +=  cipher.final('base64');
-    console.log(encryptedSocketKey);
     res.json({status: 'ok', timestamp: socketKey.timestamp, socketKey: encryptedSocketKey});
 
 }
