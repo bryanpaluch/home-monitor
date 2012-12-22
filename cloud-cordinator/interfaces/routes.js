@@ -14,8 +14,9 @@ var user = require('../app/controllers/user.js');
 var admin = require('../app/controllers/admin.js');
 var oauth = require('../app/controllers/oauth.js');
 var sensor = require('../app/controllers/sensor.js');
+var mobile = require('../app/controllers/mobile.js');
 
-app.get('/', user.about);
+app.get('/', mobile.checkMobile, user.about);
 app.get('/login', site.loginForm);
 app.post('/login', user.login);
 app.get('/logout', site.logout);
@@ -29,10 +30,15 @@ app.post('/dialog/authorize/decision', oauth.userDecision);
 app.post('/oauth/request_token', oauth.requestToken);
 app.post('/oauth/access_token', oauth.accessToken);
 
+app.all('/mobile/*', login.ensureLoggedIn('/mobile#login'));
+app.get('/mobile', mobile.unsecure);
+app.get('/mobile/sensors', user.showallsensors, mobile.show);
+
 app.all('/site*', login.ensureLoggedIn());
 app.get('/site/sensors', user.showallsensors);
 app.get('/site/sensor/:sensorId', sensor.show);
 app.post('/site/sensor/:sensorId', sensor.update);
+app.get('/site/action/:sensorId', sensor.showactions);
 app.param('sensorId', function(req, res, next, id){
   console.log('looking for ', id); 
   Sensor.findOne({_id: id})

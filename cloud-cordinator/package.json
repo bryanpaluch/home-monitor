@@ -12,7 +12,8 @@
     "mongoose": "~3.4.0",
     "jade": "~0.27.7",
     "underscore": "~1.4.2",
-    "socket.io": "~0.9.11"
+    "socket.io": "~0.9.11",
+    "connect-categorizr": "~1.1.0"
   },
   "scripts": {
     "start": "node server.js"

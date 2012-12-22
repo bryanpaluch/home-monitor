@@ -2,8 +2,8 @@
  * Module dependencies.
  */
 var express = require('express'),
-passport = require('passport')
-
+passport = require('passport'),
+categorizr = require('connect-categorizr');
 exports.boot = function(app,  passport) {
 	bootApplication(app,  passport);
 }
@@ -30,6 +30,7 @@ function bootApplication(app, passport) {
 		}));
 		app.use(passport.initialize());
 		app.use(passport.session());
+    app.use(categorizr());
 		app.use(app.router);
     app.use(express.favicon());
 		app.use(express.errorHandler({

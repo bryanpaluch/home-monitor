@@ -23,7 +23,7 @@ exports.update = [
     }
   }
 ]
-export.createAction = [
+exports.showactions = [
   function(req, res){
   var type = req.sensor.lastReading.type;
     if(type && actions[type]){
