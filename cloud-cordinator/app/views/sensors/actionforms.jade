@@ -1,0 +1,20 @@
+each action in actions
+  div#action
+    form.editsensor.form-horizontal(action="/site/action/#{sensor._id}", method="post")
+      .control-group 
+        label.control-label  #{action.name}
+      each key in action.keys
+        .control-group
+          label.control-label(for='#{key.name}') #{key.name}
+          case key.formtype
+            when 'dropdown'
+              .controls
+                select(name='#{key.name}')
+                  each display, i in key.settings 
+                    option(value='#{key.values[i]}') #{display}
+            when 'number'
+              .controls
+                input(type='number', name='#{key.name}')
+      .control-group
+        label.control-label 
+          button.btn(type='submit') Send Action
