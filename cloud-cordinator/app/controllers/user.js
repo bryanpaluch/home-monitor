@@ -31,7 +31,24 @@ exports.create = function(req, res){
   });
 }
 
-exports.session = passport.authenticate('local', { successReturnToOrRedirect: '/', failureRedirect: '/login' });
+exports.session = function(req, res, next){
+  passport.authenticate('local', function(err, user, info){
+    if(err) { return next(err)}
+    if(!user) {
+      if(req.isMobile || req.isTablet)
+        return res.redirect('/mobile');
+      else
+        return res.redirect('/login');
+    }else{
+      req.logIn(user, function(err){
+        if(err) {return next(err);}
+        if(req.isMobile || req.isTablet)
+          return res.redirect('/mobile/sensors');
+       else
+          return res.redirect('/');
+      });
+    }})(req, res, next);
+}
 exports.about = function(req, res){
   console.log(req.session); 
   res.render('about/show');
@@ -55,11 +72,18 @@ exports.show = function(req, res) {
                     updated: false
       });
 }
-
+//deprecated
 exports.showallsensors = function(req, res){
   Sensor.find({user: req.user._id}, function(err, sensors){
     if(err) return err;
     res.render('users/allsensors', {sensors: sensors});
+  });
+}
+exports.getallsensors = function(req, res, next){
+  Sensor.find({user: req.user._id}, function(err, sensors){
+    if(err) return err;
+    req.sensors = sensors;
+    return next();
   });
 }
 exports.signin = function(req, res) {}

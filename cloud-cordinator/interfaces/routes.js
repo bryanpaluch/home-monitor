@@ -30,9 +30,9 @@ app.post('/dialog/authorize/decision', oauth.userDecision);
 app.post('/oauth/request_token', oauth.requestToken);
 app.post('/oauth/access_token', oauth.accessToken);
 
-app.all('/mobile/*', login.ensureLoggedIn('/mobile#login'));
+app.all('/mobile/*', login.ensureLoggedIn('/mobile'));
 app.get('/mobile', mobile.unsecure);
-app.get('/mobile/sensors', user.showallsensors, mobile.show);
+app.get('/mobile/sensors', user.getallsensors, mobile.show);
 
 app.all('/site*', login.ensureLoggedIn());
 app.get('/site/sensors', user.showallsensors);
