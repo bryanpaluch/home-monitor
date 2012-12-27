@@ -1,0 +1,17 @@
+extends layouts/default
+
+block main
+  div(id='main', 'date-role'='page')
+    div('data-theme'='a', 'data-role'='header', 'data-title'='Thing Manager')
+      h3 Thing Manager
+    div('data-role'='content')
+      div('data-role'='collapsible-set')
+        div('data-role'='collapsible', 'data-collapsed'='false')
+          h3 Sensors
+          each sensor in sensors
+            include sensorData
+        div('data-role'='collapsible', 'data-collapsed'='true')
+          h3 Rules
+
+
+

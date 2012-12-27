@@ -1,0 +1,19 @@
+h3 #{sensor.name}
+- console.log(sensor);
+if  sensorData[sensor.lastReading.type]
+  - var sensorDesc = sensorData[sensor.lastReading.type];
+  - console.log(sensorDesc);
+  each disp in sensorDesc.display
+    case disp.type
+      when 'degree'
+        h4= disp.name  + ' : '  + Math.round(sensor.lastReading[disp.key]) + "\u00B0"
+      when 'enum'
+        h4= disp.name + ' : ' + disp.values[disp.keys[sensor.lastReading[disp.key]]]
+      default
+        h4= 'Unsupported display type'
+else
+    h4 unsupported sensor type
+  div('data-role'='navbar', 'data-iconpos'='right')
+    ul
+      li
+        a(href='#actions_#{sensor._id}', 'data-transition'='fade', 'data-theme'='', 'data-icon'='arrow-r') actions
