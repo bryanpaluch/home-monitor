@@ -11,8 +11,8 @@ module.exports =  {
     },
     display:[
       {name: 'Current Temp', key: 'currentTemp', type:'degree'}
-    , {name: 'Set Temperature', key: 'setTemp' type: 'degree'}
-    , {name: 'state', key : 'state' type: 'enum',  keys: [0,1,2], values:['auto', 'off', 'on']}
+    , {name: 'Set Temperature', key: 'setTemp', type: 'degree'}
+    , {name: 'State', key : 'state', type: 'enum',  keys: [0,1,2], values:['auto', 'off', 'on']}
     ],
     actions:[
       {  name: 'set',

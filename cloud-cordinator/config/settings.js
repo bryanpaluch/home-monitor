@@ -12,8 +12,9 @@ function bootApplication(app, passport) {
 	console.log('booting express middleware');
   app.use(express.static(__dirname + '/../public'));
 	app.set('views', __dirname + '/../app/views');
-	app.set('view engine', 'jade');
+  app.set('view engine', 'jade');
 	app.configure(function() {
+    app.locals.pretty = true;
 		app.use(function(req, res, next) {
 			res.locals.appName = 'Xbee Cloud Cordinator'
 			res.locals.title = 'Xbee Cloud Cordinator'
