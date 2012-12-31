@@ -1,8 +1,6 @@
 h3 #{sensor.name}
-- console.log(sensor);
 if  sensorData[sensor.lastReading.type]
   - var sensorDesc = sensorData[sensor.lastReading.type];
-  - console.log(sensorDesc);
   each disp in sensorDesc.display
     case disp.type
       when 'degree'
@@ -15,5 +13,7 @@ else
     h4 unsupported sensor type
   div('data-role'='navbar', 'data-iconpos'='right')
     ul
-      li
-        a(href='#actions_#{sensor._id}', 'data-transition'='fade', 'data-theme'='', 'data-icon'='arrow-r') actions
+      each act in sensorDesc.actions
+        - actions.push({desc: act, sensor: sensor});
+        li
+          a(href='#action_#{sensor._id}_#{act.name}', 'data-transition'='fade', 'data-theme'='', 'data-icon'='arrow-r') #{act.name}
