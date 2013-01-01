@@ -17,9 +17,8 @@ module.exports =  {
     actions:[
       {  name: 'set',
         keys:[
-          {name: 'state', formtype: 'dropdown', 
-            type: 'uint8', settings:['auto', 'off', 'on'], values:[0, 1, 2]},
-          {name: 'setTemp', formtype: 'number', type:'float32' }
+          {name: 'state', formtype: 'dropdown', valuetype: 'uint8', settings:['auto', 'off', 'on'], values:[0, 1, 2]},
+          {name: 'setTemp', formtype: 'slider', valuetype:'float32', min:50, max:80, value:60 }
         ],
         order: ['state', 'setTemp']
       }

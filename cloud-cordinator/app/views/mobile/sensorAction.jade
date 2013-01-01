@@ -3,4 +3,20 @@ div('date-role'='page', id='action_#{action.sensor._id}_#{action.desc.name}')
       h3 #{action.desc.name}
       a.ui-btn-left('data-icon'='delete','data-rel'='back') Back
     div('data-role'='content')
-      h3 set
+      form(action="/mobile/action/#{action.desc.name}/#{action.sensor._id}", method="post")
+        each key in action.desc.keys
+          case key.formtype
+            when 'dropdown'
+              div('data-role'='fieldcontain')
+                label.select(for='key_#{key.name}') #{key.name}
+                select(name='#{key.name}', id='key_#{key.name}')
+                  each setting, i in key.settings
+                    option(value='#{key.values[i]}') #{setting}
+            when 'slider'
+              label(for='#{key.name}') #{key.name}
+              input(type='number', data-type='range', name='#{key.name}', id='#{key.name}', value='#{key.value}', min='#{key.min}', max='#{key.max}', 'data-highlight'='true', 'data-mini'='true')
+            default
+              h4 unsupported key type
+        button(type='submit') Send Action
+
+
