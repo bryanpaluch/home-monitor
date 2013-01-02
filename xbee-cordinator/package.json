@@ -4,7 +4,7 @@
   "description": "ERROR: No README.md file found!",
   "main": "server.js",
   "dependencies": {
-    "svd-xbee": "https://github.com/bryanpaluch/node-xbee.git",
+    "svd-xbee": "https://github.com/bryanpaluch/node-xbee/tarball/master",
     "nstore": "~0.5.1",
     "packet": "0.0.4",
     "socket.io-client": "~0.9.11",
@@ -16,7 +16,8 @@
     "jade": "~0.27.7",
     "passport": "~0.1.15",
     "express-namespace": "~0.1.1",
-    "passport-oauth": "~0.1.12"
+    "passport-oauth": "~0.1.12",
+    "request": "~2.12.0"
   },
   "devDependencies": {},
   "scripts": {

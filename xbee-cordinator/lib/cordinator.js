@@ -1,10 +1,13 @@
 var util = require('util');
 var XBee = require('svd-xbee').XBee;
 var JParser = require('jParser');
+
 var xbee = new XBee({
 	port: '/dev/ttyUSB0',
-	baudrate: 9600
+	baudrate: 9600,
+  config: {}
 });
+
 var packet_patterns = require('./sensorData');
 
 module.exports.boot = function(emitter) {
@@ -36,7 +39,15 @@ module.exports.boot = function(emitter) {
 	});
 
   });
-  
-	xbee.init();
+  xbee.on('error', function(err){
+    console.log(err);
+  });
+  try{ 
+	xbee.init(function(){
+    console.log('created serial connection to xbee');
+  });
+  }catch(e){
+    console.log(e, 'error initializing xbee cordinating... waiting..');
+  }
 }
 

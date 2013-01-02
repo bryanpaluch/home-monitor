@@ -3,7 +3,7 @@ module.exports =  {
     sensorType: 'thermostat',
     payloadPattern: {
             type : 'uint8',
-            currentType : 'float32',
+            currentTemp : 'float32',
             setTemp: 'float32',
             state : 'uint8'
     }

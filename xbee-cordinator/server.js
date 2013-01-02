@@ -17,7 +17,7 @@ var env = process.env.NODE_ENV || 'development'
 require('./lib/cordinator.js').boot(handler);
 
 //Connect to cloud service and listen to events
-require('./lib/cloudconnect.js').boot(handler);
+require('./lib/cloudconnect.js').boot(handler, config);
 
 //Manages events
 require('./lib/eventHandler.js').boot(handler);
