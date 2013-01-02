@@ -27,14 +27,11 @@ passport.deserializeUser(function(id, done) {
  * Anytime a request is made to authorize an application, we must ensure that
  * a user is logged in before asking them to approve the request.
  */
-console.log('booting passport');
 passport.use(new LocalStrategy({
 	usernameField: 'email',
 	passwordField: 'password'
 },
 function(email, password, done) {
-  console.log('local strategy auth called'); 
-  console.log(email, password);
 	User.findOne({
 		email: email
 	},
@@ -78,10 +75,7 @@ passport.use('consumer', new ConsumerStrategy(
 // validate the request signature, failing authentication if it does not
 // match.
 function(consumerKey, done) {
-	console.log('look up consumerkey ' + consumerKey);
-	console.log(db.clients);
 	db.clients.findByConsumerKey(consumerKey, function(err, client) {
-		console.log(err, client);
 		if (err) {
 			return done(err);
 		}
@@ -148,7 +142,6 @@ passport.use('token', new TokenStrategy(
 // validate the request signature, failing authentication if it does not
 // match.
 function(consumerKey, done) {
-  console.log(consumerKey + 'searching for consumerKey');
 	db.clients.findByConsumerKey(consumerKey, function(err, client) {
 		if (err) {
 			return done(err);
@@ -180,12 +173,10 @@ function(consumerKey, done) {
 // It is an application's responsibility to enforce access control as
 // necessary.
 function(accessToken, done) {
-  console.log(accessToken + 'searching');
 	AccessToken
   .findOne({key: accessToken})
   .populate('user')
   .exec(function(err, token) {
-	  console.log(token, 'found');	
     if (err) {
       console.log('but errored');
 			return done(err);

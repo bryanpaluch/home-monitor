@@ -4,7 +4,8 @@ var passport = require('passport')
 , actions = require('../../libs/sensorData.js')
 , User = mongoose.model('User')
 , Sensor = mongoose.model('Sensor')
-, Reading = mongoose.model('Reading');
+, Reading = mongoose.model('Reading')
+, actionQueue = require('../../libs/actionqueue.js')
 
 //Controller for Site 
 exports.update = [
@@ -23,6 +24,22 @@ exports.update = [
     }
   }
 ]
+exports.action = function(req, res, next){
+  console.log(req.sensor);
+  console.log(req.params);
+  console.log(req.body);
+
+  if(actions[req.sensor.lastReading.type]){
+    console.log('action found');
+    var action = {user: req.sensor.user,mac: req.sensor.mac, name: req.params.action, values : req.body};
+    actionQueue.publishAction(action);
+    console.log(action);
+    return next();
+  }else{
+    console.log('action not supported');
+    return next(new Error('action not supported'));
+  }
+}
 exports.showactions = [
   function(req, res){
   var type = req.sensor.lastReading.type;

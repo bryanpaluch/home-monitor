@@ -22,6 +22,9 @@ exports.unsecure = function(req, res) {
       res.render('mobile/unsecure', {
       });
 }
+exports.action = function(req, res){
+    res.redirect('/mobile/sensors');
+}
 
 exports.show = function(req, res){
   //make sure we used middleware properly and sensors object was appended to req

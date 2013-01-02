@@ -28,8 +28,11 @@ require('./config/auth').boot(passport,config);
 require('./config/settings').boot(app, passport);
 //bootstrap Interfaces
 require('./interfaces/routes')(app, passport);
-require('./interfaces/sockets')(server, passport);
 
+var io = require('socket.io').listen(server)
+
+require('./interfaces/sockets')(io, passport);
+require('./libs/actionqueue.js').boot(io);
 
 var port = process.env.PORT || 3003;
 server.listen(port);

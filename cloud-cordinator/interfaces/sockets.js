@@ -1,8 +1,7 @@
 util = require('util');
 user = require('../app/controllers/user.js');
-module.exports = function(server, auth) {
+module.exports = function(io, auth) {
 
-	io = require('socket.io').listen(server)
 	io.set('log level', 0);
 
 	io.set('authorization', function(data, accept) {
@@ -27,10 +26,11 @@ module.exports = function(server, auth) {
         user.decryptSocketKey(data.socketKey, function(user){
           console.log('decrypted key');
           console.log(user);
-          socket.user = user;
+          socket.user = user.user;
           console.log('authenticated');
           socket.authorized = true;
           socket.emit('authsuccess', {status: 'ok'});
+          socket.join('gateway_' + socket.user._id);
         });
         console.log(data);
       });
