@@ -63,7 +63,7 @@ exports.boot = function (handler, config){
           socket.emit('auth', body);
           console.log('connected to cloud cordinator, ready for actions');
         });
-        socket.on('message', function(data){
+        socket.on('action', function(data){
           console.log('received action from cloud cordinator', data);
         });
         socket.on('disconnect', function(){
