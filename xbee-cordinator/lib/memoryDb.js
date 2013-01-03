@@ -13,6 +13,15 @@ statusDb.on('load', function(){
   console.log('status db loaded');
 });
 
+module.exports.listSensors = function(cb){
+  var list = {};
+  sensorDb.forEach(function( k, v){
+    list[k]=  v;
+  });
+  cb(list);
+}
+
+
 module.exports.checkChange = function(data, cb) {
   sensor = sensors[data.sensorId];
   if(_.isEqual(sensor,data)){

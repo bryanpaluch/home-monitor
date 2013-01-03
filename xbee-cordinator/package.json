@@ -11,7 +11,7 @@
     "jParser": "~1.0.2",
     "tiny": "0.0.8",
     "dirty": "~0.9.6",
-    "underscore": "~1.4.2",
+    "underscore": "~1.4.3",
     "express": "~3.0.3",
     "jade": "~0.27.7",
     "passport": "~0.1.15",

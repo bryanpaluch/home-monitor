@@ -1,6 +1,8 @@
 var util = require('util');
 var XBee = require('svd-xbee').XBee;
 var JParser = require('jParser');
+var memoryDb = require('./memoryDb.js');
+var _ = require('underscore');
 
 var xbee = new XBee({
 	port: '/dev/ttyUSB0',
@@ -12,6 +14,11 @@ var packet_patterns = require('./sensorData');
 
 module.exports.boot = function(emitter) {
 	var handler = emitter;
+  memoryDb.listSensors(function(sensorObj){
+    _.forEach(sensorObj, function(s){
+      console.log(s);
+    });
+  });
 	xbee.on("configured", function(config) {
 		console.log("XBee Config: %s", util.inspect(config));
 	});

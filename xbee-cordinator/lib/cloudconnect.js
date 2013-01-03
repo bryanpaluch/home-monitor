@@ -1,6 +1,6 @@
-ioclient = require('socket.io-client');
-memoryDb = require('./memoryDb.js');
-request = require('request');
+var ioclient = require('socket.io-client');
+var memoryDb = require('./memoryDb.js');
+var request = require('request');
 
 var cloudinitiated;
 
@@ -55,18 +55,22 @@ exports.boot = function (handler, config){
         socket = ioclient.connect('http://homemonitor.bryanpaluch.com',
                                   {
                                     transports: ['websocket'],
-                                    connectTimeout: 5000});
+                                    connectTimeout: 5000, 
+                                    reconnectionLimit: 60000});
         socket.on('connect_failed', function(){
           console.log('connection to the cloud cordinator failed, trying again later');
         });
         socket.on('connect', function(){
           socket.emit('auth', body);
+          handler.emit('web_up');
           console.log('connected to cloud cordinator, ready for actions');
         });
         socket.on('action', function(data){
           console.log('received action from cloud cordinator', data);
+          handler.emit('web_action', data);
         });
         socket.on('disconnect', function(){
+          handler.emit('web_down');
           console.log('disconnected from cloud cordinator, will try to reconnect soon');
         });
       }else{
