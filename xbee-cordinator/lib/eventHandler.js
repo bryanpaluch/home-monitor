@@ -13,11 +13,10 @@ exports.boot = function(handler){
     console.log('sensor up and registered', obj);
     });
   });
- 
   handler.on('web_action', function(data){
     console.log('web action', data);
     console.log('determining route');
-
+    handler.emit(data.mac, data);
   });
 
   handler.on('web_down', function(data){

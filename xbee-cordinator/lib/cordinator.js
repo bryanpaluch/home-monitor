@@ -15,16 +15,18 @@ var packet_patterns = require('./sensorData');
 module.exports.boot = function(emitter) {
 	var handler = emitter;
   memoryDb.listSensors(function(sensorObj){
+    console.log(sensorObj);
     _.forEach(sensorObj, function(s){
       console.log(s);
     });
   });
+
 	xbee.on("configured", function(config) {
 		console.log("XBee Config: %s", util.inspect(config));
 	});
 
 	xbee.on("node", function(node) {
-	  handler.emit({id: node.remote64.hex, status: 'on', node: node});	
+	  handler.emit('sensor_annouce', {id: node.remote64.hex, status: 'on', node: node});	
 		
     node.on("data", function(data) {
 			//Every packet that comes in should be parsed based on its sensor type.
@@ -35,7 +37,7 @@ module.exports.boot = function(emitter) {
       if(packet_patterns[type]){
         var parser = new jParser(data, {pattern : packet_patterns[type].payloadPattern});
         var packet = parser.parse('pattern');
-        console.log(packet); 
+        console.log(packet);
         handler.emit('sensor_reading', {
              sensorId: node.remote64.hex,
              payload:  packet
