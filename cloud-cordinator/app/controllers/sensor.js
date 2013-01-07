@@ -31,7 +31,7 @@ exports.action = function(req, res, next){
 
   if(actions[req.sensor.lastReading.type]){
     console.log('action found');
-    var action = {user: req.sensor.user,mac: req.sensor.mac, name: req.params.action, values : req.body};
+    var action = {type: req.sensor.lastReading.type, user: req.sensor.user,mac: req.sensor.mac, name: req.params.action, values : req.body};
     actionQueue.publishAction(action);
     console.log(action);
     return next();
