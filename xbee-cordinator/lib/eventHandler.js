@@ -9,9 +9,9 @@ exports.boot = function(handler){
     });
   });
   handler.on('sensor_annouce', function(data){
-    memoryDb.registerSensor(data, function(obj){
-    console.log('sensor up and registered', obj);
-    });
+   // memoryDb.registerSensor(data, function(obj){
+    //console.log('sensor up and registered', obj);
+    //});
   });
   handler.on('web_action', function(data){
     console.log('web action', data);

@@ -2,12 +2,10 @@ module.exports =  {
   1 : {
     sensorType: 'thermostat',
     reading:{
-      payloadPattern: {
             type : 'uint8',
             currentTemp : 'float32',
             setTemp: 'float32',
             state : 'uint8'
-      }
     },
     display:[
       {name: 'Current Temp', key: 'currentTemp', type:'degree'}

@@ -23,28 +23,28 @@ jsonPacker.prototype.pack = function(){
 //note all functions use Little Endian for simplication on arduino side
 jsonPacker.prototype.packers = { 
 	uint8: function (value) { 
-    this.buffer.writeUInt8(value, this.marker);
+    this.buffer.writeUInt8(Number(value), this.marker);
     this.marker +=1;},
 	uint16: function (value){
-    this.buffer.writeUInt16LE(value, this.marker)
+    this.buffer.writeUInt16LE(Number(value), this.marker)
     this.marker +=2;},
 	uint32: function (value){ 
-    this.buffer.writeUInt32LE(value, this.marker)
+    this.buffer.writeUInt32LE(Number(value), this.marker)
     this.marker +=4;},
 	int8: function (value) { 
-    this.buffer.writeInt8(value, this.marker)
+    this.buffer.writeInt8(Number(value), this.marker)
     this.marker +=1;},
 	int16: function (value) { 
-    this.buffer.writeInt16LE(value, this.marker)
+    this.buffer.writeInt16LE(Number(value), this.marker)
     this.marker +=2;},
 	int32: function (value) { 
-    this.buffer.writeInt32LE(value, this.marker)
+    this.buffer.writeInt32LE(Number(value), this.marker)
     this.marker +=4;},
 	float32: function (value) { 
-    this.buffer.writeFloatLE(value, this.marker)
+    this.buffer.writeFloatLE(Number(value), this.marker)
     this.marker +=4;},
 	float64: function (value) { 
-    this.buffer.writeDoubleLE(value, this.marker)
+    this.buffer.writeDoubleLE(Number(value), this.marker)
     this.marker +=8;},
   string: function(value){
     this.marker += this.buffer.write(value, this.marker);}

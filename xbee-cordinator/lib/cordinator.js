@@ -1,6 +1,7 @@
 var util = require('util');
 var XBee = require('svd-xbee').XBee;
 var JParser = require('jParser');
+var jsonPacker = require('../lib/jsonPacker.js');
 var memoryDb = require('./memoryDb.js');
 var _ = require('underscore');
 
@@ -27,7 +28,22 @@ module.exports.boot = function(emitter) {
 
 	xbee.on("node", function(node) {
 	  handler.emit('sensor_annouce', {id: node.remote64.hex, status: 'on', node: node});	
-		
+	  if(handler.listeners(node.remote64.hex).length === 0){
+      handler.on(node.remote64.hex, function(action){
+        console.log('creating binary packet from action');
+        console.log(action); 
+        var struct = _.find(packet_patterns[action.type].actions, function(a){
+                        return a.name == action.name;});
+        var jp = new jsonPacker(action.values, struct, {size:6});
+        var packed = jp.pack();
+        node.send(packed);
+        console.log(node.remote64.hex);
+        console.log(packed);
+      });
+    }else{
+      console.log('sensor registered but already handling requests to that sensor');
+    }
+
     node.on("data", function(data) {
 			//Every packet that comes in should be parsed based on its sensor type.
       //sensor type is defined by the first byte of the array.
@@ -35,7 +51,7 @@ module.exports.boot = function(emitter) {
       var type = data[0];
       console.log('sensor with type ' + type + ' sent data');
       if(packet_patterns[type]){
-        var parser = new jParser(data, {pattern : packet_patterns[type].payloadPattern});
+        var parser = new jParser(data, {pattern : packet_patterns[type].reading});
         var packet = parser.parse('pattern');
         console.log(packet);
         handler.emit('sensor_reading', {
