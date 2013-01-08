@@ -8,7 +8,8 @@ var _ = require('underscore');
 var xbee = new XBee({
 	port: '/dev/ttyUSB0',
 	baudrate: 9600,
-  config: {}
+  config: {},
+  emit_buffers :true
 });
 
 var packet_patterns = require('./sensorData');

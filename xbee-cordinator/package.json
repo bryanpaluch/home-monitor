@@ -4,7 +4,6 @@
   "description": "ERROR: No README.md file found!",
   "main": "server.js",
   "dependencies": {
-    "svd-xbee": "https://github.com/bryanpaluch/node-xbee/tarball/master",
     "nstore": "~0.5.1",
     "packet": "0.0.4",
     "socket.io-client": "~0.9.11",
