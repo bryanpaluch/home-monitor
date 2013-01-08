@@ -5,12 +5,14 @@ module.exports =  {
             type : 'uint8',
             currentTemp : 'float32',
             setTemp: 'float32',
-            state : 'uint8'
+            setting : 'uint8',
+            relay1 : 'uint8'
     },
     display:[
       {name: 'Current Temp', key: 'currentTemp', type:'degree'}
     , {name: 'Set Temperature', key: 'setTemp', type: 'degree'}
-    , {name: 'State', key : 'state', type: 'enum',  keys: [0,1,2], values:['auto', 'off', 'on']}
+    , {name: 'Setting', key : 'setting', type: 'enum',  keys: [0,1,2], values:['auto', 'off', 'on']}
+    , {name: 'Relay Power', key : 'relay1', type: 'enum',  keys: [0,1], values:['off', 'on']}
     ],
     actions:[
       {  name: 'set',
