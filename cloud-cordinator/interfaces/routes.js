@@ -33,6 +33,7 @@ app.post('/oauth/access_token', oauth.accessToken);
 app.all('/mobile/*', login.ensureLoggedIn('/mobile'));
 app.get('/mobile', mobile.unsecure);
 app.get('/mobile/sensors', user.getallsensors, mobile.show);
+app.get('/mobile/action/:action/:sensorId', user.getallsensors, mobile.show);
 app.post('/mobile/action/:action/:sensorId', sensor.action, mobile.action);
 
 app.all('/site*', login.ensureLoggedIn());
