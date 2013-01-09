@@ -1,0 +1,8 @@
+extends ../layouts/default
+
+block main
+  .container-fluid
+    .row.span11.boxed
+      h1=user.name
+      a(href="/auth/cloudcordinator")
+          p="Click here to change your cloud cordinator"
