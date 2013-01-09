@@ -41,7 +41,8 @@ mobile website, json api, and a socket.io interface
 that communicators, and clients can receive sensor event, and actions
 from in real time.
 
-The browser and mobile website is protected using session based login
+The browser and mobile website is protected using session based login.
+
 The json api is OAuth 1.0a and works with passportjs. Users can allow
 request access to the api from other applications.
 
