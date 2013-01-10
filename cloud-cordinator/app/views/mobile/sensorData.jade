@@ -9,11 +9,11 @@ if  sensorData[sensor.lastReading.type]
         h4= disp.name + ' : ' + disp.values[disp.keys[sensor.lastReading[disp.key]]]
       default
         h4= 'Unsupported display type'
-else
-    h4 unsupported sensor type
   div('data-role'='navbar', 'data-iconpos'='right')
     ul
       each act in sensorDesc.actions
         - actions.push({desc: act, sensor: sensor});
         li
           a(href='#action_#{sensor._id}_#{act.name}', 'data-transition'='fade', 'data-theme'='', 'data-icon'='arrow-r') #{act.name}
+else
+  h4 unsupported sensor type
