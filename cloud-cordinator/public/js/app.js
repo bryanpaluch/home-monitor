@@ -1,21 +1,35 @@
 $(document).ready(function () {
-
-  // confirmations
-  $('.confirm').submit(function (e) {
+  $('.editsensor').on('submit', function(e){
     e.preventDefault();
+    console.log(this);
     var self = this;
-    var msg = 'Are you sure?';
-    bootbox.confirm(msg, 'cancel', 'Yes! I am sure', function (action) {
-      if (action) {
-        $(self).unbind('submit');
-        $(self).trigger('submit');
-      }
+    var url = $(this).attr('action') 
+    $.ajax({
+      type: 'POST',
+      url:url, 
+      data :$(this).serialize(),
+      success: function(data){
+        if(data.result === 'success'){
+          if(data.redraw === true){
+            $(self).parent().modal('hide');
+            document.location.reload();
+          }
+        }else{
+            $(self).parent().modal('hide');
+        }
+      },
+      dataType: 'json'
     });
   });
 
-  $('#tags').tagsInput({
-    'height':'60px',
-    'width':'280px'
+  $('#dashboard-menu a').click(function(e){
+    e.preventDefault();
+    var self = this;
+    $('#dashboard-menu .active').removeClass('active');
+    $(this).parent().addClass('active');
+    $('#dashboard-active .active').hide().removeClass('active');
+    $($(this).attr('href')).show().addClass('active');
   });
+
 
 });

@@ -850,7 +850,7 @@ div.subnav.subnav-fixed{-webkit-box-shadow:none;-moz-box-shadow:none;box-shadow:
 .nav>li.active>a,.nav>li.active>a:hover{background-color:transparent;border:none;color:#ffffff;}
 .nav>li>a:hover{background-color:transparent;color:#bbbfc2;}
 .nav-list{background-color:#3a3f44;-webkit-box-shadow:1px 1px 1px rgba(0, 0, 0, 0.4);-moz-box-shadow:1px 1px 1px rgba(0, 0, 0, 0.4);box-shadow:1px 1px 1px rgba(0, 0, 0, 0.4);}.nav-list li>a{background-image:none;text-shadow:-1px -1px 0 rgba(0, 0, 0, 0.3);}
-.nav-list .nav-header{color:#52575c;text-shadow:-1px -1px 0 rgba(0, 0, 0, 0.3);}
+.nav-list .nav-header{color: rgb(73, 148, 223);text-shadow:-1px -1px 0 rgba(0, 0, 0, 0.3);}
 .nav-list .divider{border-bottom:1px solid #1c1e22;background-color:transparent;}
 .nav-tabs{border-bottom:none;}
 .tabs-below .nav-tabs{border-top:none;}

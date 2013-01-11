@@ -1,0 +1,36 @@
+.navbar
+    h2 #{sensor.name}
+      button.btn.pull-right(href="#update_#{sensor._id}", 'data-toggle'='modal') update
+
+if  sensorData[sensor.lastReading.type]
+  - var sensorDesc = sensorData[sensor.lastReading.type];
+  each disp in sensorDesc.display
+    case disp.type
+      when 'degree'
+        h4= disp.name  + ' : '  + Math.round(sensor.lastReading[disp.key]) + "\u00B0"
+      when 'enum'
+        h4= disp.name + ' : ' + disp.values[disp.keys[sensor.lastReading[disp.key]]]
+      default
+        h4= 'Unsupported display type'
+  div
+    ul
+      each act in sensorDesc.actions
+        - actions.push({desc: act, sensor: sensor});
+        li
+          a(href='#action_#{sensor._id}_#{act.name}', 'data-toggle' ) #{act.name}
+else
+  h4 unsupported sensor type
+div.modal.hide.fade(id="update_#{sensor._id}", tabindex="-1", role="dialog")
+  form.editsensor.form-inline(action="/site/sensor/#{sensor._id}", method="post")
+    .modal-header
+      button.close(type='button', 'data-dismiss'='modal', 'aria-hidden'='true') x
+      h3 Update Sensor
+    .modal-body
+        .control-group
+          label.control-label(for='name') Name:
+            .controls
+              input#name(type='text', name="name",  value='#{sensor.name}') 
+    .modal-footer            
+     button.btn('data-dismiss'='modal', type='submit') Close
+     button.modalformbutton.btn.btn-primary(type='submit') Update
+

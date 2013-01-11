@@ -6,6 +6,9 @@ body {
 .navbar{
   width: auto;
 }
+.navbar-static-top{
+  margin-bottom: 20px;
+}
 .padding{
   padding-left:25px;
   padding-right:25px;
@@ -26,13 +29,15 @@ body {
 }
 .boxed{
   position: relative;
-  margin: 15px 0;
   padding: 20px 19px 14px;
-  background-color: #EBEBEB;
+  background-color: rgb(63, 63, 63);
   border: 1px solid #DDD;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
+}
+.modal > form {
+  margin-bottom: 0;
 }
 .date {
   font-size: 11px;

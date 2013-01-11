@@ -9,14 +9,15 @@ var passport = require('passport')
 
 //Controller for Site 
 exports.update = [
-  function(req, res){
+  function(req, res, next){
   var sensor = req.sensor;
     if(sensor && req.body.name){
       sensor.name = req.body.name;
-      sensor.save(function(err){
+      sensor.save(function(err, doc){
         if(err) throw (err);
-        var type = req.sensor.lastReading.type;
-        res.render('sensors/' + type + '/show', {sensor: req.sensor});
+        var response = {result: 'success',redraw : true}
+        req.jsonResponse = response;
+        next(); 
       });
     }else{
         var type = req.sensor.lastReading.type;

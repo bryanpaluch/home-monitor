@@ -1,0 +1,25 @@
+extends ../layouts/default
+
+block main
+  .container-fluid
+    #adsidebar.row.span2
+    #dashboard-menu.row.span3
+      ul.nav.nav-list
+        li.nav-header Sensors
+        each sensor, i in sensors
+          if i == 0 
+            li.active
+              a(href="##{sensor._id}") #{sensor.name}
+          else
+            li
+              a(href="##{sensor._id}") #{sensor.name}
+        li.nav-header Rules
+    #dashboard-active.row.span7
+      each sensor, i in sensors
+        if i == 0
+          div.active.boxed(id="#{sensor._id}")
+            include sensormain
+        else
+          div.hide.boxed(id="#{sensor._id}")
+            include sensormain
+

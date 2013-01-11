@@ -29,17 +29,17 @@ app.get('/dialog/authorize', oauth.userAuthorization);
 app.post('/dialog/authorize/decision', oauth.userDecision);
 app.post('/oauth/request_token', oauth.requestToken);
 app.post('/oauth/access_token', oauth.accessToken);
-
+//All mobile website routes
 app.all('/mobile/*', login.ensureLoggedIn('/mobile'));
 app.get('/mobile', mobile.unsecure);
 app.get('/mobile/sensors', user.getallsensors, mobile.show);
 app.get('/mobile/action/:action/:sensorId', user.getallsensors, mobile.show);
 app.post('/mobile/action/:action/:sensorId', sensor.action, mobile.action);
-
+//All browser website routes
 app.all('/site*', login.ensureLoggedIn());
-app.get('/site/sensors', user.showallsensors);
+app.get('/site/sensors', user.getallsensors, site.show);
 app.get('/site/sensor/:sensorId', sensor.show);
-app.post('/site/sensor/:sensorId', sensor.update);
+app.post('/site/sensor/:sensorId', sensor.update, site.jsonResponse);
 app.get('/site/action/:sensorId', sensor.showactions);
 app.param('sensorId', function(req, res, next, id){
   console.log('looking for ', id); 
