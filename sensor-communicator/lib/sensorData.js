@@ -24,6 +24,27 @@ module.exports =  {
         order: ['state', 'setTemp']
       }
     ]
+  },
+  12 : {
+    sensorType: 'display',
+    reading:{
+            type : 'uint8',
+            mode : 'uint8',
+            length: 'uint8',
+            line1 : ['string', function(){ return this.current.length;}]
+    },
+    display:[
+      {name: 'Current Display', key: 'line', type:'string'}
+    ],
+    actions:[
+      {  name: 'setString',
+        type: 0,
+        keys:[
+          {name: 'line1', formtype: 'text', valuetype: 'string' },
+        ],
+      }
+    ]
   }
+
 }
 
