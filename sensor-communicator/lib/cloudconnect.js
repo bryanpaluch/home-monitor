@@ -55,8 +55,8 @@ exports.boot = function (handler, config){
         socket = ioclient.connect('http://homemonitor.bryanpaluch.com',
                                   {
                                     transports: ['websocket'],
-                                    connectTimeout: 5000, 
-                                    reconnectionLimit: 60000});
+                                    'connect timeout' : 5000, 
+                                    'max reconnection limit': Infinity});
         socket.on('connect_failed', function(){
           console.log('connection to the cloud cordinator failed, trying again later');
         });
