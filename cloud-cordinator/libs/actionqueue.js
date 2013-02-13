@@ -1,17 +1,15 @@
 
-var io;
+var io, publishAction;
 
 exports.boot = function(iosocket){
-
-io = iosocket;
-
+  var handler = require('./event_handler').getHandler();
+  io = iosocket;
+  handler.on('action::new', function(evt){
+   publishAction(evt); 
+  });
 }
 
-exports.publishAction = function(action){
-    console.log('got a publish action request');
-    console.log(action);
-    console.log(io.sockets.manager.rooms);
-    console.log('/gateway_'+ action.user);
+publishAction = exports.publishAction = function(action){
     if(io.sockets.manager.rooms['/gateway_' +action.user]){
       console.log('connected gateway for sensor emitting event to gateway');
       io.sockets.in('gateway_' + action.user).emit('action', action);
@@ -19,8 +17,6 @@ exports.publishAction = function(action){
       //queue action
       console.log('queuing action ');
     }
-
-
 }
 
 exports.checkActionQueue = function(user){

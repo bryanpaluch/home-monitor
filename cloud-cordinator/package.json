@@ -13,7 +13,10 @@
     "jade": "~0.27.7",
     "underscore": "~1.4.2",
     "socket.io": "~0.9.11",
-    "connect-categorizr": "~1.1.0"
+    "connect-categorizr": "~1.1.0",
+    "redis": "~0.8.2",
+    "eventemitter2": "~0.4.11",
+    "node-uuid": "~1.4.0"
   },
   "scripts": {
     "start": "node server.js"
