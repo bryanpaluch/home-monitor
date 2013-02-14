@@ -5,7 +5,7 @@ var passport = require('passport')
 , User = mongoose.model('User')
 , Sensor = mongoose.model('Sensor')
 , Reading = mongoose.model('Reading')
-, actionQueue = require('../../libs/actionqueue.js')
+, handler = require('../../libs/event_handler.js').getHandler();
 
 //Controller for Site 
 exports.update = [
@@ -33,7 +33,7 @@ exports.action = function(req, res, next){
   if(actions[req.sensor.lastReading.type]){
     console.log('action found');
     var action = {type: req.sensor.lastReading.type, user: req.sensor.user,mac: req.sensor.mac, name: req.params.action, values : req.body};
-    actionQueue.publishAction(action);
+    handler.emit("action::new", action);
     console.log(action);
     return next();
   }else{
@@ -78,6 +78,7 @@ exports.read = [
       console.log('sensor already exists, reading');
       var sensor = req.sensor;
       sensor.lastReading = req.body.payload;
+      handler.emit("event::new", sensor);  
       sensor.save(function(err){
         if(err)
           console.log(err);
@@ -93,6 +94,7 @@ exports.read = [
                                name: 'New Sensor',
                                user: req.user._id,
                                lastReading: req.body.payload});
+      handler.emit("event::new", sensor);  
       sensor.save(function(err){
         if(err) {
           console.log(err);

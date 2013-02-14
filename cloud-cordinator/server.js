@@ -23,6 +23,7 @@ model_files.forEach(function(file) {
   require(models_path+'/'+file)
 });
 
+require('./libs/event_queue_agent.js').boot(config.memory);
 require('./config/auth').boot(passport,config);
 //bootstrap express settings
 require('./config/settings').boot(app, passport);
