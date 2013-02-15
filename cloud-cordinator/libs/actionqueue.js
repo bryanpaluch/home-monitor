@@ -5,7 +5,16 @@ exports.boot = function(iosocket){
   var handler = require('./event_handler').getHandler();
   io = iosocket;
   handler.on('action::new', function(evt){
-   publishAction(evt); 
+   console.log(evt);
+   if(evt.act){
+     console.log("doing action from the bus");
+     publishAction(evt.act);
+     handler.emit('action::complete', evt);
+   }
+   else{
+     console.log('doing action from local process');
+     publishAction(evt);
+    }
   });
 }
 

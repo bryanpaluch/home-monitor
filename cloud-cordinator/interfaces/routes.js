@@ -41,6 +41,7 @@ app.get('/site/sensors', user.getallsensors, site.show);
 app.get('/site/sensor/:sensorId', sensor.show);
 app.post('/site/sensor/:sensorId', sensor.update, site.jsonResponse);
 app.get('/site/action/:sensorId', sensor.showactions);
+app.post('/site/action/:action/:sensorId', sensor.action, site.jsonResponse);
 app.param('sensorId', function(req, res, next, id){
   console.log('looking for ', id); 
   Sensor.findOne({_id: id})
