@@ -47,6 +47,12 @@ jsonPacker.prototype.packers = {
     this.buffer.writeDoubleLE(Number(value), this.marker)
     this.marker +=8;},
   string: function(value){
-    this.marker += this.buffer.write(value, this.marker);}
+    var lengthMarker = this.marker;
+    this.marker++;
+    var length = this.buffer.write(value, this.marker);
+    console.log(length);
+    this.marker += length; 
+    this.buffer.writeUInt8(Number(length), lengthMarker);
+  }
 }
 module.exports= jsonPacker;

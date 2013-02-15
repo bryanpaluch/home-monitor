@@ -35,7 +35,7 @@ module.exports.boot = function(emitter) {
         console.log(action); 
         var struct = _.find(packet_patterns[action.type].actions, function(a){
                         return a.name == action.name;});
-        var jp = new jsonPacker(action.values, struct, {size:6});
+        var jp = new jsonPacker(action.values, struct, {size:100});
         var packed = jp.pack();
         node.send(packed);
         console.log(node.remote64.hex);
