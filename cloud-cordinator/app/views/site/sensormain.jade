@@ -17,7 +17,7 @@ if  sensorData[sensor.lastReading.type]
       each act in sensorDesc.actions
         - actions.push({desc: act, sensor: sensor});
         li
-          a(href='#action_#{sensor._id}_#{act.name}', 'data-toggle' ) #{act.name}
+          a(href='#action_#{sensor._id}_#{act.name}', 'data-toggle'='modal' ) #{act.name}
 else
   h4 unsupported sensor type
 div.modal.hide.fade(id="update_#{sensor._id}", tabindex="-1", role="dialog")

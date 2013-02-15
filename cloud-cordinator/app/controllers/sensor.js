@@ -35,6 +35,8 @@ exports.action = function(req, res, next){
     var action = {type: req.sensor.lastReading.type, user: req.sensor.user,mac: req.sensor.mac, name: req.params.action, values : req.body};
     handler.emit("action::new", action);
     console.log(action);
+    var response = {result: 'success',redraw : true}
+    req.jsonResponse = response;
     return next();
   }else{
     console.log('action not supported');

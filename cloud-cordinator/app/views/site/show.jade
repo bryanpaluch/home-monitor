@@ -22,4 +22,6 @@ block main
         else
           div.hide.boxed(id="#{sensor._id}")
             include sensormain
+      each action, i in actions
+        include actionmain
 
