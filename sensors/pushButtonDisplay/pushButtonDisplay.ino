@@ -1,8 +1,9 @@
 #include <SoftwareSerial.h>
-
+#include <LiquidCrystal.h>
 #include <XBee.h>
 #define TYPE 2
-const int buttonPin = 3;     // the number of the pushbutton pin
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+const int buttonPin = 7;     // the number of the pushbutton pin
 const int ledPin =  13;      // the number of the LED pin
 SoftwareSerial ss(10,11);
 XBee xbee = XBee();
@@ -27,16 +28,18 @@ int lastButtonState = LOW;   // the previous reading from the input pin
 // the following variables are long's because the time, measured in miliseconds,
 // will quickly become a bigger number than can be stored in an int.
 long lastDebounceTime = 0;  // the last time the output pin was toggled
-long debounceDelay = 500;    // the debounce time; increase if the output flickers
+long debounceDelay = 200;    // the debounce time; increase if the output flickers
 
 void setup() {
+  lcd.begin(16, 2);
+  lcd.print("No Messages!");
   ss.begin(9600);
   ss.println("starting debug code version 12");
   pinMode(buttonPin, INPUT);
   pinMode(ledPin, OUTPUT);
   Serial.begin(9600);
   xbee.setSerial(Serial);
-  flashLed(ledPin, 10, 100);
+  flashLed(ledPin, 5, 100);
 }
 
 void loop() {
@@ -136,6 +139,7 @@ void sendButtonEvent(){
   payloadPointer = 0;
   addByteToPayload(TYPE);
   addByteToPayload(buttonState); 
+  addByteToPayload(true); 
   xbee.send(zbTx);
 }
 void processPacket(ZBRxResponse rx){
