@@ -40,43 +40,65 @@ exports.boot = function (handler, config){
   });
 
   function connectToCloud(){
+    var disconnectTimer = null;
     console.log('requesting a socket key from cloud');
     var oauth = { consumer_key : config.cc.consumerKey,
                   consumer_secret: config.cc.consumerSecret,
                   token: cloudinitiated.token.token,
                   token_secret: cloudinitiated.token.attributes.tokenSecret
                 };
+    var getKeyAndConnect = function(){
+      request.get({url: 'http://homemonitor.bryanpaluch.com/api/socketkey',
+               oauth: oauth, json : true}
+               ,function(error, response, body ){
+          if(!error && response.statusCode !== 500){
+          console.log('received socket key');
+          var connect = function(){
+            socket = ioclient.connect('http://homemonitor.bryanpaluch.com',
+                                     {
+                                      transports: ['websocket'],
+                                      'connect timeout' : 5000, 
+                                      'max reconnection limit': Infinity});
+          }
+          connect();
+          socket.on('connect_failed', function(){
+            console.log('connection to the cloud cordinator failed, trying again later');
+            disconnectTimer = setTimeout(function(){
+              console.log('attempting to connect');
+              connect();
+              }, 30000);
+          });
+          socket.on('connect', function(){
+            if(disconnectTimer)
+              clearInterval(disconnectTimer);
+            socket.emit('auth', body);
+            handler.emit('web_up');
+            console.log('connected to cloud cordinator, ready for actions');
+          });
+          socket.on('action', function(data){
+            console.log('received action from cloud cordinator', data);
+            handler.emit('web_action', data);
+          });
+          socket.on('disconnect', function(){
+            handler.emit('web_down');
+            console.log('disconnected from cloud cordinator, will try to reconnect soon');
+            disconnectTimer = setTimeout(function(){
+              console.log('attempting to connect');
+              connect();
+              }, 30000);
+          });
+        }else{
 
-    request.get({url: 'http://homemonitor.bryanpaluch.com/api/socketkey',
-             oauth: oauth, json : true}
-             ,function(error, response, body ){
-      if(!error){
-        console.log('received socket key');
-        socket = ioclient.connect('http://homemonitor.bryanpaluch.com',
-                                  {
-                                    transports: ['websocket'],
-                                    'connect timeout' : 5000, 
-                                    'max reconnection limit': Infinity});
-        socket.on('connect_failed', function(){
-          console.log('connection to the cloud cordinator failed, trying again later');
-        });
-        socket.on('connect', function(){
-          socket.emit('auth', body);
-          handler.emit('web_up');
-          console.log('connected to cloud cordinator, ready for actions');
-        });
-        socket.on('action', function(data){
-          console.log('received action from cloud cordinator', data);
-          handler.emit('web_action', data);
-        });
-        socket.on('disconnect', function(){
-          handler.emit('web_down');
-          console.log('disconnected from cloud cordinator, will try to reconnect soon');
-        });
-      }else{
-        console.log('error', error);
-      }
-    });
+          disconnectTimer = setTimeout(function(){
+            console.log('attempting to connect');
+            getKeyAndConnect();
+            }, 5000);
+          console.log('did not connect waiting to try again');
+          console.log('error', error);
+        }
+      });
+    }
+    getKeyAndConnect();
 
   }
 
@@ -100,12 +122,3 @@ exports.boot = function (handler, config){
 
   }
 }
-//       request.put({
-//				url: 'http://homemonitor.bryanpaluch.com/temp',
-//				json: {
-//					temp: float
-//				}
-//        },
-//        function(err, res, data) {
-//          console.log(data);
-//        });

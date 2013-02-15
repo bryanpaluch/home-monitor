@@ -25,6 +25,27 @@ module.exports =  {
       }
     ]
   },
+  2 : {
+    sensorType: 'pushButtonDisplay',
+    reading:{
+            type : 'uint8',
+            mode : 'uint8',
+            event: 'uint8'
+    },
+    display:[
+      {name: 'Current State', key: 'mode', type:'enum', keys: [0,1], values:['off', 'on']}
+    ],
+    actions:[
+      {  name: 'setString',
+        type: 0,
+        keys:[
+          {name: 'line1', formtype: 'text', valuetype: 'string' },
+          {name: 'line2', formtype: 'text', valuetype: 'string' },
+          {name: 'timeout', formtype: 'slider', valuetype: 'float32', min:0, max:60000 },
+        ],
+      }
+    ]
+  },
   12 : {
     sensorType: 'display',
     reading:{
