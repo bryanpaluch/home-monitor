@@ -1,11 +1,9 @@
-#include <SoftwareSerial.h>
 #include <LiquidCrystal.h>
 #include <XBee.h>
 #define TYPE 2
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 const int buttonPin = 7;     // the number of the pushbutton pin
 const int ledPin =  13;      // the number of the LED pin
-SoftwareSerial ss(10,11);
 XBee xbee = XBee();
 //packet payload
 uint8_t payload[11] = {};
@@ -32,9 +30,7 @@ long debounceDelay = 200;    // the debounce time; increase if the output flicke
 
 void setup() {
   lcd.begin(16, 2);
-  lcd.print("No Messages12!");
-  ss.begin(9600);
-  ss.println("starting debug code version 12");
+  lcd.print("No Messages13!");
   pinMode(buttonPin, INPUT);
   pinMode(ledPin, OUTPUT);
   Serial.begin(9600);
@@ -145,17 +141,16 @@ void sendButtonEvent(){
 }
 void processPacket(ZBRxResponse rx){
  
-  ss.println("processing data");
+
   switch (rx.getData(0)){
     case 0:
-      ss.println("got packet for set action");
       set(rx);
       break;
     case 1:
-      ss.println("got packet of type 1");
+
       break;
     default:
-      ss.println("got unknown packet type");
+
       break;
   } 
   
@@ -163,20 +158,23 @@ void processPacket(ZBRxResponse rx){
 void set(ZBRxResponse rx){
  
  String line1 = getStringFromPayload(rx,1);
- int length = rx.getData(1);
- String line2 = getStringFromPayload(rx, 1 + length);
- flashLed(ledPin, length, 100); 
- lcd.setCursor(0,0);
+ int line1length = rx.getData(1);
+ String line2 = getStringFromPayload(rx, 1 + (line1length +1));
+ 
+ lcd.clear();
+
  lcd.print(line1); 
  lcd.setCursor(0,1);
  lcd.print(line2);
+ return;
 }
 //I is the index of the uint8 stored length of the string that comes after it.
 String getStringFromPayload(ZBRxResponse rx, int i){
   int length = rx.getData(i);
-  String line;
-  for(int k=i; k < (length + i); k++){
-   line += rx.getData(k);
+  String line= "";
+
+  for(int k=i+1; k < (length + i + 1); k++){
+   line += (char)rx.getData(k);
   }
   return line;
 }
