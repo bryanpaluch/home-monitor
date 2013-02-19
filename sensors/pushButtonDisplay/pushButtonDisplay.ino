@@ -1,10 +1,9 @@
-#include <SoftwareSerial.h>
-
+#include <LiquidCrystal.h>
 #include <XBee.h>
 #define TYPE 2
-const int buttonPin = 3;     // the number of the pushbutton pin
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+const int buttonPin = 7;     // the number of the pushbutton pin
 const int ledPin =  13;      // the number of the LED pin
-SoftwareSerial ss(10,11);
 XBee xbee = XBee();
 //packet payload
 uint8_t payload[11] = {};
@@ -27,20 +26,21 @@ int lastButtonState = LOW;   // the previous reading from the input pin
 // the following variables are long's because the time, measured in miliseconds,
 // will quickly become a bigger number than can be stored in an int.
 long lastDebounceTime = 0;  // the last time the output pin was toggled
-long debounceDelay = 500;    // the debounce time; increase if the output flickers
+long debounceDelay = 200;    // the debounce time; increase if the output flickers
 
 void setup() {
-  ss.begin(9600);
-  ss.println("starting debug code version 12");
+  lcd.begin(16, 2);
+  lcd.print("No Messages13!");
   pinMode(buttonPin, INPUT);
   pinMode(ledPin, OUTPUT);
   Serial.begin(9600);
   xbee.setSerial(Serial);
-  flashLed(ledPin, 10, 100);
+  flashLed(ledPin, 5, 100);
 }
 
 void loop() {
   checkButton();
+  readIncoming();
 }
 
 void readIncoming(){
@@ -69,7 +69,7 @@ void readIncoming(){
             // we got it (obviously) but sender didn't get an ACK
         //    flashLed(errorLed, 2, 20);
         }
-        flashLed(ledPin, 5, 100);
+       // flashLed(ledPin, 5, 100);
         // set dataLed PWM to value of the first byte in the data
       //  analogWrite(dataLed, rx.getData(0));
         processPacket(rx);
@@ -136,24 +136,47 @@ void sendButtonEvent(){
   payloadPointer = 0;
   addByteToPayload(TYPE);
   addByteToPayload(buttonState); 
+  addByteToPayload(true); 
   xbee.send(zbTx);
 }
 void processPacket(ZBRxResponse rx){
  
-  ss.println("processing data");
+
   switch (rx.getData(0)){
     case 0:
-      ss.println("got packet for set action");
-   //   set(rx);
+      set(rx);
       break;
     case 1:
-      ss.println("got packet of type 1");
+
       break;
     default:
-      ss.println("got unknown packet type");
+
       break;
   } 
   
+}
+void set(ZBRxResponse rx){
+ 
+ String line1 = getStringFromPayload(rx,1);
+ int line1length = rx.getData(1);
+ String line2 = getStringFromPayload(rx, 1 + (line1length +1));
+ 
+ lcd.clear();
+
+ lcd.print(line1); 
+ lcd.setCursor(0,1);
+ lcd.print(line2);
+ return;
+}
+//I is the index of the uint8 stored length of the string that comes after it.
+String getStringFromPayload(ZBRxResponse rx, int i){
+  int length = rx.getData(i);
+  String line= "";
+
+  for(int k=i+1; k < (length + i + 1); k++){
+   line += (char)rx.getData(k);
+  }
+  return line;
 }
 float readFloatFromPayload(ZBRxResponse rx, int i){
  union u_tag {
