@@ -54,7 +54,7 @@ exports.boot = function (handler, config){
           if(!error && response.statusCode !== 500){
           console.log('received socket key');
           var connect = function(){
-            socket = ioclient.connect('http://homemonitor.bryanpaluch.com',
+            socket = ioclient.connect('http://connector.gridreact.com',
                                      {
                                       transports: ['websocket'],
                                       'connect timeout' : 5000, 
@@ -67,6 +67,12 @@ exports.boot = function (handler, config){
               console.log('attempting to connect');
               connect();
               }, 30000);
+          });
+          socket.on('authsuccess', function(data){
+            console.log("sucessful auth");
+          });
+          socket.on('authfailure', function(data){
+            console.log("bad auth tryin again");
           });
           socket.on('connect', function(){
             if(disconnectTimer)

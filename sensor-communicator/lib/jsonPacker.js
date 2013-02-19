@@ -18,7 +18,8 @@ jsonPacker.prototype.pack = function(){
     var element = this.structure.keys[y];
     self.packers[element.valuetype].apply(self, [self.data[element.name]]); 
   }
-  return this.buffer;
+  //return only the part of the buffer that was filled.
+  return this.buffer.slice(0, this.marker);
 }
 //note all functions use Little Endian for simplication on arduino side
 jsonPacker.prototype.packers = { 
