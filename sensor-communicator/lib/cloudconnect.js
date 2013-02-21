@@ -48,7 +48,7 @@ exports.boot = function (handler, config){
                   token_secret: cloudinitiated.token.attributes.tokenSecret
                 };
     var getKeyAndConnect = function(){
-      request.get({url: 'http://homemonitor.bryanpaluch.com/api/socketkey',
+      request.get({url: 'http://interact.gridreact.com/api/socketkey',
                oauth: oauth, json : true}
                ,function(error, response, body ){
           if(!error && response.statusCode !== 500){
@@ -100,7 +100,7 @@ exports.boot = function (handler, config){
             getKeyAndConnect();
             }, 5000);
           console.log('did not connect waiting to try again');
-          console.log('error', error);
+          console.log('error', error, response.body.error);
         }
       });
     }
